@@ -1,0 +1,133 @@
+.row {
+  width: 100%;
+  margin-bottom: 4%;
+  padding: 0 var(--padding-main-right-and-left);
+  overflow: hidden;
+}
+
+.row-parent {
+  position: relative;
+}
+
+.row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.row-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 13px;
+  font-weight: 700;
+}
+
+.row-item-details {
+  position: fixed;
+  z-index: 999999999;
+  background-color: red;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.row-indicator {
+  display: flex;
+  gap: 1px;
+}
+
+.row-indicator span {
+  background-color: rgb(77, 77, 77);
+  width: 14px;
+  height: 2px;
+}
+
+.row-indicator span.active {
+  background-color: rgb(170, 170, 170);
+}
+
+.row-container {
+}
+
+.row-wrapper {
+  transform: translate3D(0px, 0px, 0px);
+  transition: transform 0.3s cubic-bezier(0.5, 0, 0.1, 1) 0s;
+  white-space: nowrap;
+  height: 23vw;
+  will-change: transform;
+  cursor: default;
+}
+
+.row-wrapper.grabbing {
+  cursor: grabbing;
+}
+
+.row .arrow {
+  position: absolute;
+  font-size: 3rem;
+  width: 2.5rem;
+  height: 100%;
+  color: #fff;
+  z-index: 997;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgba(20, 20, 20, 0.5);
+  transition: all 0.2s ease;
+}
+
+.row .arrow:hover {
+  background-color: rgba(20, 20, 20, 0.7);
+  font-size: 4rem;
+}
+
+.row .leftArrow {
+  left: calc(-1 * var(--padding-main-right-and-left));
+}
+
+.row .rightArrow {
+  right: calc(-1 * var(--padding-main-right-and-left));
+}
+
+@media only screen and (max-width: 1300px) {
+  .row-wrapper {
+    height: 28vw;
+  }
+
+  .row .arrow {
+    width: 40px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .row-wrapper {
+    height: 32vw;
+  }
+
+  .row .arrow {
+    font-size: 2rem;
+    width: 15px;
+  }
+
+  .row .arrow:hover {
+    font-size: 2.5rem;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .row-title {
+    font-size: 1.6rem;
+  }
+
+  .row-wrapper {
+    height: 45vw;
+  }
+
+  .row .arrow {
+    width: 15.1px;
+  }
+}
