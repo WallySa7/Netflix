@@ -22,18 +22,6 @@
   font-weight: 700;
 }
 
-.row-item-details {
-  position: fixed;
-  z-index: 999999999;
-  background-color: red;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
 .row-indicator {
   display: flex;
   gap: 1px;
@@ -71,7 +59,7 @@
   width: 2.5rem;
   height: 100%;
   color: #fff;
-  z-index: 997;
+  z-index: 960;
   display: flex;
   justify-content: center;
   align-items: center;
