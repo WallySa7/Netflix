@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Featured from "./components/Featured";
 import Nav from "./components/Nav";
 import Row from "./components/row/Row";
+import PreviewModal from "./components/PreviewModal/PreviewModal";
+import { useSelector } from "react-redux";
 import {
   api_Trending,
   api_Top20today,
@@ -10,6 +13,8 @@ import {
 } from "./components/Api";
 
 function App() {
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const isOpened = useSelector((state) => state.detailsModal.value.isOpened);
   return (
     <div className='App'>
       <Nav />
@@ -19,6 +24,7 @@ function App() {
       <Row title='Tv Thrillers' api={api_Tvthrillers} />
       <Row title='Action & Adventure' api={api_ActionandAdventure} />
       <Row title='US TV Shows' api={api_UsTvShows} />
+      {isOpened && <PreviewModal />}
     </div>
   );
 }

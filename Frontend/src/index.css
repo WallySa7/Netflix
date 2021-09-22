@@ -26,7 +26,7 @@ body {
   width: 100%;
   position: fixed;
   transition: all 0.2s ease-in-out;
-  z-index: 1000;
+  z-index: 990;
 }
 
 .nav.background {
@@ -110,7 +110,7 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
   transition: left 0.2s ease;
-  z-index: 999;
+  z-index: 980;
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -167,7 +167,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 998;
+  z-index: 970;
   transition: all 0.2s ease-in-out;
 }
 

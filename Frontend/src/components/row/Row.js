@@ -5,10 +5,9 @@ import Row_Item from "../row_item/Row_Item";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import axios from "axios";
 
-const Row = ({ title, api }) => {
+const Row = ({ title, api, handlePreviewModal }) => {
   const rowWrap = useRef(null);
   const rowIndicator = useRef(null);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [trending, setTrending] = useState([]);
   const [SliderHaveFinished, setSliderHaveFinished] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,10 +27,6 @@ const Row = ({ title, api }) => {
         console.log(err);
       });
   }, []);
-
-  const handleDetails = (boolean) => {
-    setIsDetailsOpen(boolean);
-  };
 
   const handleRowIsFinished = (numOfS, currentS) => {
     if (numOfS == currentS + 1) {
@@ -135,7 +130,6 @@ const Row = ({ title, api }) => {
 
   return (
     <div className='row'>
-      {isDetailsOpen && <div className='row-item-details'></div>}
       <div className='row-header'>
         <h1 className='row-title'>{title}</h1>
         <div className='row-indicator' ref={rowIndicator}>
@@ -191,7 +185,7 @@ const Row = ({ title, api }) => {
                   api={api}
                   api_Img={api_Img}
                   trend={trend}
-                  handleDetails={handleDetails}
+                  handlePreviewModal={handlePreviewModal}
                 />
               );
             })}
