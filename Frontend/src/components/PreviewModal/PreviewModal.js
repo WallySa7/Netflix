@@ -7,38 +7,103 @@ import { closeDetails } from "../../features/detailsModalSlice";
 import { api_Img } from "../Api";
 
 const PreviewModal = () => {
-  const title = useSelector((state) => state.detailsModal.value.title);
-  const desc = useSelector((state) => state.detailsModal.value.description);
-  const img = useSelector((state) => state.detailsModal.value.img);
-  const vote = useSelector((state) => state.detailsModal.value.vote);
-  const year = useSelector((state) => state.detailsModal.value.year);
-  const seasons = useSelector((state) => state.detailsModal.value.seasons);
+  const details = useSelector((state) => state.detailsModal.value);
   const dispatch = useDispatch();
   const handleCloseDetailsModal = () => {
     dispatch(closeDetails());
   };
-  const isOpened = useSelector((state) => state.detailsModal.value.isOpened);
-  const isLoading = useSelector((state) => state.detailsModal.value.isLoading);
+  const handleConvertMinToHour = (min) => {
+    const time = min / 60;
+    const hours = Math.floor(time);
+    const minutes = Math.round((time - hours) * 60);
+    return hours + "h" + " " + minutes + "m";
+  };
   return (
     <>
       <div
-        className={`detailsOverlay${isOpened ? " toggle" : ""}`}
+        className={`detailsOverlay${details.isOpened ? " toggle" : ""}`}
         onClick={handleCloseDetailsModal}></div>
       <div className='previewModal'>
-        {isLoading ? (
+        {details.isLoading ? (
           <h1 style={{ color: "red" }}>LOADING...</h1>
         ) : (
           <>
-            <div className='header'>
-              <div className='img_parent'>
-                <img src={api_Img + img} alt={title} />
-              </div>
-              <button className='close-btn' onClick={handleCloseDetailsModal}>
-                <AiOutlineClose className='close-icon' />
-              </button>
+            <div className='img_parent'>
+              <img src={api_Img + details.img} alt={details.title} />
             </div>
-            <h1>{title}</h1>
-            <p>{desc}</p>
+            <div className='wrapper'>
+              <div className='section1'>
+                <button className='close-btn' onClick={handleCloseDetailsModal}>
+                  <AiOutlineClose className='close-icon' />
+                </button>
+                <div className='info'>
+                  <div className='sec1-left'>
+                    <div className='space-between'>
+                      <div>
+                        {details.year && (
+                          <span className='year'>
+                            {details.year.split("-")[0]}
+                          </span>
+                        )}
+
+                        <span>{details.adult && "18+"}</span>
+                        {details.seasons ? (
+                          <span>{details.seasons} Seasons</span>
+                        ) : (
+                          <span>{handleConvertMinToHour(details.time)}</span>
+                        )}
+                      </div>
+                      <div className='genres-parent'>
+                        <span className='tags-label'> Genres:&nbsp;</span>
+                        {details.genres.join(", ")}
+                      </div>
+                    </div>
+                    <div className='section-divider'></div>
+                    <h1 className='title'>{details.title}</h1>
+                    <p className='desc'>{details.description}</p>
+                  </div>
+                </div>
+              </div>
+              <div className='section-divider'></div>
+              <div className='section2'>
+                <h1>Trailer</h1>
+                <iframe
+                  width='420'
+                  height='315'
+                  allowfullscreen=''
+                  src={`https://www.youtube.com/embed/${details.trailer}`}
+                />
+              </div>
+              <div className='section-divider'></div>
+              <div className='section3'>
+                <h1>More Like This</h1>
+                {/* {details.similars} */}
+              </div>
+              <div className='section-divider'></div>
+              <div className='section4'>
+                <h1>About {details.title}</h1>
+                <div className='more_details'>
+                  {details?.director && (
+                    <div>
+                      <span className='tags-label'>Director: </span>
+                      <span>{details?.director}</span>
+                    </div>
+                  )}
+                  {details?.cast && (
+                    <div>
+                      <span className='tags-label'>Cast: </span>
+                      {details.cast.join(", ")}
+                    </div>
+                  )}
+                  {details?.genres && (
+                    <div>
+                      <span className='tags-label'>Genres: </span>
+                      <span>{details?.genres.join(", ")}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>

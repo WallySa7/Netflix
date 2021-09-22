@@ -30,11 +30,25 @@ const Row_Item = ({ api, api_Img, trend }) => {
     const movieDetailsRequest = movieDetails + api_Rest;
     const tvSimilarRequest = tvDetails + similar;
     const movieSimilarRequest = movieDetails + similar;
+    const tvTrailer = api_Tv + trend?.id + "/videos" + api_Rest;
+    const movieTrailer = api_Movie + trend?.id + "/videos" + api_Rest;
+    const tvCredits = api_Tv + trend?.id + "/credits" + api_Rest;
+    const movieCredits = api_Movie + trend?.id + "/credits" + api_Rest;
 
     if (isShow) {
-      return [axios.get(tvDetailsRequest), axios.get(tvSimilarRequest)];
+      return [
+        axios.get(tvDetailsRequest),
+        axios.get(tvTrailer),
+        axios.get(tvSimilarRequest),
+        axios.get(tvCredits),
+      ];
     } else {
-      return [axios.get(movieDetailsRequest), axios.get(movieSimilarRequest)];
+      return [
+        axios.get(movieDetailsRequest),
+        axios.get(movieTrailer),
+        axios.get(movieSimilarRequest),
+        axios.get(movieCredits),
+      ];
     }
   };
 
@@ -46,11 +60,30 @@ const Row_Item = ({ api, api_Img, trend }) => {
     axios
       .all(handleRequest(isTvShow))
       .then(
-        axios.spread((data1, data2) => {
+        axios.spread((data1, data2, data3, data4) => {
           const d1 = data1.data;
-          const d2 = data2.data.results.slice(0, 10);
+          const d2 = data2.data.results.find(
+            (vid) => vid.type == "Trailer"
+          )?.key;
+          const d3 = data3.data.results.slice(0, 10);
+          const d4 = data4.data;
+          let cast = [];
+          let genres = [];
+          const runtime = d1?.runtime;
+          const director = d4?.crew.find(
+            (dir) => dir?.job === "Director"
+          )?.name;
+          d4.cast
+            .filter((act) => act?.known_for_department === "Acting")
+            .map((actor) => cast.push(actor?.name));
+          d1?.genres.map((gen) => genres.push(gen?.name));
           console.log(d1);
-          console.log(d2);
+          if (cast.length === 0) {
+            cast = null;
+          }
+          if (genres.length === 0) {
+            genres = null;
+          }
           dispatch(
             updateDetails({
               id: d1?.id,
@@ -58,8 +91,15 @@ const Row_Item = ({ api, api_Img, trend }) => {
               description: d1?.overview,
               img: d1?.backdrop_path || d1?.poster_path,
               vote: d1?.vote_average,
-              year: d1?.first_air_date,
+              year: d1?.first_air_date || d1?.release_date,
+              adult: d1?.adult,
               seasons: d1?.number_of_seasons,
+              time: runtime,
+              genres: genres,
+              trailer: d2,
+              similars: d3,
+              director: director,
+              cast: cast,
               isLoading: false,
               isOpened: true,
             })
