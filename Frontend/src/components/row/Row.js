@@ -5,13 +5,13 @@ import Row_Item from "../row_item/Row_Item";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import axios from "axios";
 
-const Row = ({ title, api, handlePreviewModal }) => {
+const Row = ({ title, api }) => {
   const rowWrap = useRef(null);
   const rowIndicator = useRef(null);
   const [trending, setTrending] = useState([]);
   const [SliderHaveFinished, setSliderHaveFinished] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [pxToMove, setPxToMove] = useState(50);
+  const pxToMove = 50;
   const rowItem_margin = getComputedStyle(document.documentElement)
     .getPropertyValue("--slider-item-margin-right")
     .match(/\d+/g)[0];
@@ -29,7 +29,7 @@ const Row = ({ title, api, handlePreviewModal }) => {
   }, []);
 
   const handleRowIsFinished = (numOfS, currentS) => {
-    if (numOfS == currentS + 1) {
+    if (numOfS === currentS + 1) {
       setSliderHaveFinished(true);
     } else {
       setSliderHaveFinished(false);
@@ -67,7 +67,7 @@ const Row = ({ title, api, handlePreviewModal }) => {
       if (direction === "right") {
         currentSlide.current++;
         handleIndicator(numOfSlides, currentSlide.current);
-        if (numOfSlides == currentSlide.current + 1 && howMuchLeft > 0) {
+        if (numOfSlides === currentSlide.current + 1 && howMuchLeft > 0) {
           translateX = currentSlide.current * (row_item_size * howMuchToMove);
           rowWrap.current.style.transform = `translate3D(-${
             translateX - (howMuchToMove - howMuchLeft) * row_item_size
@@ -185,7 +185,6 @@ const Row = ({ title, api, handlePreviewModal }) => {
                   api={api}
                   api_Img={api_Img}
                   trend={trend}
-                  handlePreviewModal={handlePreviewModal}
                 />
               );
             })}

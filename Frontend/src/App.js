@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Featured from "./components/Featured";
 import Nav from "./components/Nav";
 import Row from "./components/row/Row";
@@ -13,7 +12,6 @@ import {
 } from "./components/Api";
 
 function App() {
-  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const isOpened = useSelector((state) => state.detailsModal.value.isOpened);
   return (
     <div className='App'>

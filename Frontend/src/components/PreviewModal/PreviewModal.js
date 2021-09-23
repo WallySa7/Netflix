@@ -1,10 +1,10 @@
-import { useState } from "react";
 import "./PreviewModal.css";
 import { useSelector } from "react-redux";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { closeDetails } from "../../features/detailsModalSlice";
 import { api_Img } from "../Api";
+import Row_Item from "../row_item/Row_Item";
 
 const PreviewModal = () => {
   const details = useSelector((state) => state.detailsModal.value);
@@ -70,23 +70,29 @@ const PreviewModal = () => {
                 <iframe
                   width='420'
                   height='315'
-                  allowfullscreen=''
+                  allowFullScreen
                   src={`https://www.youtube.com/embed/${details.trailer}`}
                 />
               </div>
               <div className='section-divider'></div>
               <div className='section3'>
                 <h1>More Like This</h1>
-                {/* {details.similars} */}
+                <div className='section3-flex'>
+                  {details.similars.map((trend, index) => (
+                    <Row_Item key={index} api_Img={api_Img} trend={trend} />
+                  ))}
+                </div>
               </div>
               <div className='section-divider'></div>
               <div className='section4'>
                 <h1>About {details.title}</h1>
                 <div className='more_details'>
-                  {details?.director && (
+                  {details?.created_by && (
                     <div>
-                      <span className='tags-label'>Director: </span>
-                      <span>{details?.director}</span>
+                      <span className='tags-label'>
+                        {details.isTvShow ? "Creators: " : "Director: "}
+                      </span>
+                      <span>{details?.created_by.join(", ")}</span>
                     </div>
                   )}
                   {details?.cast && (
